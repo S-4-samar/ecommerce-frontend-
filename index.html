@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             font-family: 'Inter', sans-serif;
@@ -31,15 +32,25 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .cart-badge {
             animation: pulse 0.3s ease-in-out;
@@ -55,6 +66,7 @@
         .dropdown {
             position: relative;
         }
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -68,14 +80,17 @@
             border: 1px solid #e5e7eb;
             margin-top: 4px;
         }
+
         .dropdown:hover .dropdown-content {
             display: block;
             animation: fadeIn 0.2s ease-in-out;
         }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         .dropdown-item {
             display: block;
             padding: 12px 16px;
@@ -84,9 +99,11 @@
             transition: all 0.2s;
             border-bottom: 1px solid #f3f4f6;
         }
+
         .dropdown-item:last-child {
             border-bottom: none;
         }
+
         .dropdown-item:hover {
             background-color: #f8fafc;
             color: #4f46e5;
@@ -95,15 +112,18 @@
         .nav-link {
             position: relative;
         }
+
         .nav-link::after {
             content: '▼';
             margin-left: 6px;
             font-size: 10px;
             transition: transform 0.2s;
         }
+
         .dropdown:hover .nav-link::after {
             transform: rotate(180deg);
         }
+
         /* Enhanced Filter Styles */
         .filter-sidebar {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -111,34 +131,43 @@
             min-height: calc(100vh - 64px);
             transition: all 0.3s ease;
         }
+
         .filter-section {
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 1rem;
             padding-bottom: 1rem;
         }
+
         .filter-section:last-child {
             border-bottom: none;
         }
+
         .filter-toggle {
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .filter-toggle:hover {
             color: #4f46e5;
         }
+
         .filter-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
+
         .filter-content.active {
             max-height: 500px;
             padding-top: 1rem;
         }
+
         .price-range-container {
             padding: 1rem 0;
         }
+
         .price-slider {
+
             width: 100%;
             height: 6px;
             border-radius: 5px;
@@ -147,9 +176,11 @@
             opacity: 0.7;
             transition: opacity 0.2s;
         }
+
         .price-slider:hover {
             opacity: 1;
         }
+
         .price-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -161,6 +192,7 @@
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+
         .price-slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -170,15 +202,18 @@
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+
         .filter-checkbox {
             accent-color: #3b82f6;
             transform: scale(1.1);
         }
+
         .no-products {
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
             border: 2px dashed #cbd5e1;
             border-radius: 12px;
         }
+
         .filter-mobile-toggle {
             position: fixed;
             bottom: 20px;
@@ -187,6 +222,7 @@
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
+
         @media (max-width: 768px) {
             .filter-sidebar {
                 position: fixed;
@@ -196,21 +232,17 @@
                 z-index: 30;
                 transition: left 0.3s ease;
             }
+
             .filter-sidebar.active {
                 left: 0;
             }
+
             .filter-overlay {
                 position: fixed;
                 inset: 0;
                 background: rgba(0, 0, 0, 0.5);
                 z-index: 25;
                 backdrop-filter: blur(2px);
-            }
-            .hidden-on-mobile {
-                display: none;
-            }
-            .product-card img {
-                height: auto;
             }
         }
     </style>
@@ -221,64 +253,60 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Left Side: Brand and Dropdowns -->
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-8">
                     <!-- Brand -->
                     <div class="text-2xl font-bold text-indigo-600">TechReFi</div>
 
-                    <!-- Mobile Menu Button -->
-                    <button id="mobileMenuButton" class="sm:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
-                        <i class="fas fa-bars"></i>
-                    </button>
-
-                    <!-- Navigation Links -->
-                    <div class="hidden sm:flex items-center space-x-4">
-                        <!-- Home Dropdown -->
-                        <div class="dropdown">
-                            <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
-                            <div class="dropdown-content">
-                                <a href="#" class="dropdown-item">Dashboard</a>
-                                <a href="#" class="dropdown-item">Getting Started</a>
-                                <a href="#" class="dropdown-item">Features Overview</a>
-                                <a href="#" class="dropdown-item">Latest Updates</a>
-                            </div>
+                    <!-- Home Dropdown -->
+                    <div class="dropdown">
+                        <a href="#" onclick="showPage('home')"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Dashboard</a>
+                            <a href="#" class="dropdown-item">Getting Started</a>
+                            <a href="#" class="dropdown-item">Features Overview</a>
+                            <a href="#" class="dropdown-item">Latest Updates</a>
                         </div>
+                    </div>
 
-                        <!-- Products Dropdown -->
-                        <div class="dropdown">
-                            <a href="#" onclick="showPage('products')" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
-                            <div class="dropdown-content">
-                                <a href="#" class="dropdown-item" onclick="filterByCategory('smartphones')">Smartphones</a>
-                                <a href="#" class="dropdown-item" onclick="filterByCategory('laptops')">Laptops</a>
-                                <a href="#" class="dropdown-item" onclick="filterByCategory('tablets')">Tablets</a>
-                                <a href="#" class="dropdown-item" onclick="filterByCategory('accessories')">Accessories</a>
-                                <a href="#" class="dropdown-item" onclick="filterByCategory('audio')">Audio</a>
-                                <a href="#" class="dropdown-item">Refurbished Deals</a>
-                                <a href="#" class="dropdown-item">Trade-In Program</a>
-                            </div>
+                    <!-- Products Dropdown -->
+                    <div class="dropdown">
+                        <a href="#" onclick="showPage('products')"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('smartphones')">Smartphones</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('laptops')">Laptops</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('tablets')">Tablets</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('accessories')">Accessories</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('audio')">Audio</a>
+                            <a href="#" class="dropdown-item">Refurbished Deals</a>
+                            <a href="#" class="dropdown-item">Trade-In Program</a>
                         </div>
+                    </div>
 
-                        <!-- About Dropdown -->
-                        <div class="dropdown">
-                            <a href="#" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
-                            <div class="dropdown-content">
-                                <a href="#" class="dropdown-item">Our Story</a>
-                                <a href="#" class="dropdown-item">Mission & Values</a>
-                                <a href="#" class="dropdown-item">Team</a>
-                                <a href="#" class="dropdown-item">Careers</a>
-                                <a href="#" class="dropdown-item">Press & Media</a>
-                            </div>
+                    <!-- About Dropdown -->
+                    <div class="dropdown">
+                        <a href="#"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Our Story</a>
+                            <a href="#" class="dropdown-item">Mission & Values</a>
+                            <a href="#" class="dropdown-item">Team</a>
+                            <a href="#" class="dropdown-item">Careers</a>
+                            <a href="#" class="dropdown-item">Press & Media</a>
                         </div>
+                    </div>
 
-                        <!-- Contact Dropdown -->
-                        <div class="dropdown">
-                            <a href="#" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
-                            <div class="dropdown-content">
-                                <a href="#" class="dropdown-item">Customer Support</a>
-                                <a href="#" class="dropdown-item">Sales Inquiry</a>
-                                <a href="#" class="dropdown-item">Technical Support</a>
-                                <a href="#" class="dropdown-item">Store Locations</a>
-                                <a href="#" class="dropdown-item">Live Chat</a>
-                            </div>
+                    <!-- Contact Dropdown -->
+                    <div class="dropdown">
+                        <a href="#"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Customer Support</a>
+                            <a href="#" class="dropdown-item">Sales Inquiry</a>
+                            <a href="#" class="dropdown-item">Technical Support</a>
+                            <a href="#" class="dropdown-item">Store Locations</a>
+                            <a href="#" class="dropdown-item">Live Chat</a>
                         </div>
                     </div>
                 </div>
@@ -312,17 +340,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden sm:hidden bg-white shadow-lg">
-        <div class="px-2 pt-2 pb-3 space-y-1">
-            <a href="#" onclick="showPage('home')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</a>
-            <a href="#" onclick="showPage('products')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Products</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">About</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Contact</a>
-        </div>
-    </div>
-
     <!-- Home Page -->
     <div id="homePage" class="page">
         <!-- Hero Section -->
@@ -340,7 +357,7 @@
         <section class="py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
-                <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div id="featuredProducts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- Products will be loaded here by JavaScript -->
                 </div>
             </div>
@@ -360,15 +377,14 @@
             </div>
         </section>
     </div>
-
     <!-- Products Page -->
     <div id="productsPage" class="page hidden">
         <!-- Filter Overlay for Mobile -->
         <div id="filterOverlay" class="filter-overlay hidden"></div>
 
-        <div class="flex flex-col md:flex-row">
+        <div class="flex">
             <!-- Filter Sidebar -->
-            <div id="filterSidebar" class="filter-sidebar w-full md:w-80 p-6">
+            <div id="filterSidebar" class="filter-sidebar w-80 p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-bold text-gray-800">
                         <i class="fas fa-filter mr-2"></i>Filters
@@ -391,26 +407,31 @@
                                 <input type="checkbox" name="category" value="smartphones" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Smartphones</span>
+                                <span class="ml-auto text-xs text-gray-500" id="smartphones-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="category" value="laptops" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Laptops</span>
+                                <span class="ml-auto text-xs text-gray-500" id="laptops-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="category" value="tablets" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Tablets</span>
+                                <span class="ml-auto text-xs text-gray-500" id="tablets-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="category" value="accessories" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Accessories</span>
+                                <span class="ml-auto text-xs text-gray-500" id="accessories-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="category" value="audio" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Audio</span>
+                                <span class="ml-auto text-xs text-gray-500" id="audio-count">0</span>
                             </label>
                         </div>
                     </div>
@@ -431,7 +452,15 @@
                                 <span>$2000+</span>
                             </div>
                             <input type="range" id="priceRange" min="0" max="2000" value="2000" class="price-slider w-full"
-                                onchange="document.getElementById('currentPriceValue').textContent = this.value; applyFilters()">
+                                onchange="applyFilters()">
+                            <div class="flex gap-2 mt-4">
+                                <input type="number" id="minPrice" placeholder="Min" min="0"
+                                    class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    onchange="updatePriceRange()">
+                                <input type="number" id="maxPrice" placeholder="Max" min="0"
+                                    class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    onchange="updatePriceRange()">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -449,19 +478,23 @@
                                 <input type="checkbox" name="brand" value="Apple" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Apple</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Apple-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="brand" value="Samsung" class="filter-checkbox mr-3"
                                     onchange="applyFilters()">
                                 <span class="text-sm">Samsung</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Samsung-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="brand" value="Dell" class="filter-checkbox mr-3" onchange="applyFilters()">
                                 <span class="text-sm">Dell</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Dell-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="brand" value="Sony" class="filter-checkbox mr-3" onchange="applyFilters()">
                                 <span class="text-sm">Sony</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Sony-count">0</span>
                             </label>
                         </div>
                     </div>
@@ -492,8 +525,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+                </div>
             <!-- Main Content -->
             <div class="flex-1 p-6">
                 <div class="flex justify-between items-center mb-6">
@@ -501,6 +533,7 @@
                         <h1 class="text-3xl font-bold">All Products</h1>
                         <p class="text-gray-600 mt-1">
                             Showing <span id="productCount">0</span> products
+                            <span id="activeFiltersText" class="text-indigo-600"></span>
                         </p>
                     </div>
 
@@ -517,8 +550,14 @@
                         </select>
                     </div>
                 </div>
+                <!-- Active Filters Display -->
+                <div id="activeFilters" class="mb-6 hidden">
+                    <div class="flex flex-wrap gap-2">
+                        <!-- Active filter tags will be inserted here -->
+                    </div>
+                </div>
                 <!-- Products Grid -->
-                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Products will be loaded here by JavaScript -->
                 </div>
                 <!-- No Products Found -->
@@ -541,7 +580,6 @@
             <i class="fas fa-filter"></i>
         </button>
     </div>
-
     <!-- Product Detail Page -->
     <div id="productDetailPage" class="page hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -550,7 +588,6 @@
             </div>
         </div>
     </div>
-
     <!-- Cart Page -->
     <div id="cartPage" class="page hidden">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -569,7 +606,6 @@
             </div>
         </div>
     </div>
-
     <!-- Checkout Page -->
     <div id="checkoutPage" class="page hidden">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -604,6 +640,8 @@
                 <!-- Payment Information -->
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h2 class="text-xl font-bold mb-4">Payment Information</h2>
+                    <!-- Python backend integration placeholder -->
+                    <!-- Python/Django: Handle secure payment processing with Stripe/PayPal -->
                     <div class="space-y-4">
                         <div class="flex space-x-4">
                             <button class="flex-1 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
@@ -638,12 +676,13 @@
             </div>
         </div>
     </div>
-
     <!-- Login Modal -->
     <div id="loginModal"
         class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden items-center justify-center z-50">
         <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4">
             <h2 class="text-2xl font-bold mb-6 text-center">Login / Sign Up</h2>
+            <!-- Python backend integration placeholder -->
+            <!-- Python/Django: User authentication system -->
             <form id="loginForm">
                 <input type="email" placeholder="Email" required
                     class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -663,7 +702,6 @@
             </button>
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -709,12 +747,10 @@
             </div>
         </div>
     </footer>
-
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="fixed inset-0 bg-white bg-opacity-80 hidden items-center justify-center z-50">
         <div class="loading-spinner"></div>
     </div>
-
     <script>
         // Sample product data
         const products = [
@@ -722,7 +758,6 @@
                 id: 1,
                 name: "iPhone 15 Pro",
                 category: "smartphones",
-                brand: "Apple",
                 price: 999,
                 image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400",
                 description: "Latest iPhone with advanced camera system and A17 Pro chip.",
@@ -734,7 +769,6 @@
                 id: 2,
                 name: "MacBook Air M3",
                 category: "laptops",
-                brand: "Apple",
                 price: 1299,
                 image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400",
                 description: "Ultra-thin laptop with M3 chip for exceptional performance.",
@@ -746,7 +780,6 @@
                 id: 3,
                 name: "AirPods Pro",
                 category: "audio",
-                brand: "Apple",
                 price: 249,
                 image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400",
                 description: "Wireless earbuds with active noise cancellation.",
@@ -758,7 +791,6 @@
                 id: 4,
                 name: "iPad Air",
                 category: "tablets",
-                brand: "Apple",
                 price: 599,
                 image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
                 description: "Powerful tablet for work and creativity.",
@@ -770,7 +802,6 @@
                 id: 5,
                 name: "Samsung Galaxy S24",
                 category: "smartphones",
-                brand: "Samsung",
                 price: 899,
                 image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400",
                 description: "Flagship Android phone with AI features.",
@@ -782,7 +813,6 @@
                 id: 6,
                 name: "Dell XPS 13",
                 category: "laptops",
-                brand: "Dell",
                 price: 1199,
                 image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
                 description: "Premium ultrabook with stunning display.",
@@ -796,7 +826,6 @@
         let currentPage = 'home';
         let filteredProducts = [...products];
 
-        // Initialize the app
         document.addEventListener('DOMContentLoaded', function () {
             loadFeaturedProducts();
             loadAllProducts();
@@ -805,33 +834,47 @@
         });
 
         function setupEventListeners() {
-            // Search functionality
             document.getElementById('searchInput').addEventListener('input', handleSearch);
+            document.getElementById('sortBy').addEventListener('change', applyFilters);
+            document.getElementById('priceRange').addEventListener('input', function () {
+                document.getElementById('currentPriceValue').textContent = '$' + this.value;
+                applyFilters();
+            });
 
-            // Mobile menu toggle
-            document.getElementById('mobileMenuButton').addEventListener('click', toggleMobileMenu);
-        }
+            document.querySelectorAll('input[name="category"]').forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
+            });
 
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            mobileMenu.classList.toggle('hidden');
+            document.getElementById('checkoutForm').addEventListener('submit', validateCheckoutForm);
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
         }
 
         function showPage(pageName) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
             });
-            // Show requested page
+
             const page = document.getElementById(pageName + 'Page');
             if (page) {
                 page.classList.remove('hidden');
                 page.classList.add('fade-in');
                 currentPage = pageName;
-                // Update cart total on checkout page
+
                 if (pageName === 'checkout') {
                     updateCheckoutTotal();
                 }
+            }
+        }
+
+        function filterByCategory(category) {
+            document.querySelectorAll('input[name="category"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            const checkbox = document.querySelector(`input[name="category"][value="${category}"]`);
+            if (checkbox) {
+                checkbox.checked = true;
+                applyFilters();
             }
         }
 
@@ -849,10 +892,11 @@
             const grid = document.getElementById('productsGrid');
             if (!grid) return;
 
-            if (productsToShow.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No products found matching your criteria.</div>';
-            } else {
-                grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+            grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+
+            const productCountElement = document.getElementById('productCount');
+            if (productCountElement) {
+                productCountElement.textContent = productsToShow.length;
             }
         }
 
@@ -866,8 +910,8 @@
                         <div class="flex items-center mb-4">
                             <div class="flex items-center text-yellow-400">
                                 ${Array(5).fill().map((_, i) =>
-                `<i class="fas fa-star ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}"></i>`
-            ).join('')}
+                                    `<i class="fas fa-star ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}"></i>`
+                                ).join('')}
                             </div>
                             <span class="text-sm text-gray-500 ml-2">(${product.reviews})</span>
                         </div>
@@ -890,6 +934,19 @@
         function showProductDetail(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
+
+            // Define features for each product
+            const productFeatures = {
+                1: ["A17 Pro chip", "Advanced camera system", "5G connectivity", "All-day battery life"],
+                2: ["M3 chip", "13.3-inch Retina display", "Up to 18 hours of battery life", "Lightweight design"],
+                3: ["Active noise cancellation", "Transparency mode", "Sweat and water resistant", "Easy setup for all Apple devices"],
+                4: ["10.9-inch Liquid Retina display", "A14 Bionic chip", "Touch ID for secure authentication", "Support for Apple Pencil"],
+                5: ["AI-powered camera", "5G connectivity", "Long-lasting battery", "Sleek and durable design"],
+                6: ["13.4-inch InfinityEdge display", "10th Gen Intel Core processors", "Premium design and build quality", "Long battery life"]
+            };
+
+            const features = productFeatures[productId] || [];
+
             const detailContainer = document.getElementById('productDetail');
             detailContainer.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -901,8 +958,8 @@
                         <div class="flex items-center mb-4">
                             <div class="flex items-center text-yellow-400">
                                 ${Array(5).fill().map((_, i) =>
-                `<i class="fas fa-star ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}"></i>`
-            ).join('')}
+                                    `<i class="fas fa-star ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}"></i>`
+                                ).join('')}
                             </div>
                             <span class="ml-2 text-gray-600">${product.rating} (${product.reviews} reviews)</span>
                         </div>
@@ -926,11 +983,18 @@
                         </button>
 
                         <div class="mt-8">
+                            <h2 class="text-2xl font-bold mb-4">Features</h2>
+                            <ul class="list-disc pl-5 mb-6">
+                                ${features.map(feature => `<li>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div class="mt-8">
                             <h3 class="text-xl font-semibold mb-4">Suggested Items</h3>
                             <div class="grid grid-cols-2 gap-4">
                                 ${products.filter(p => p.id !== productId && p.category === product.category)
-                    .slice(0, 2)
-                    .map(p => `
+                                    .slice(0, 2)
+                                    .map(p => `
                                         <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow cursor-pointer" onclick="showProductDetail(${p.id})">
                                             <img src="${p.image}" alt="${p.name}" class="w-full h-24 object-cover rounded mb-2">
                                             <h4 class="font-medium">${p.name}</h4>
@@ -948,7 +1012,7 @@
         function addToCart(productId, quantity = 1) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
-            // Check if product already in cart
+
             const existingItem = cart.find(item => item.id === productId);
             if (existingItem) {
                 existingItem.quantity += quantity;
@@ -957,7 +1021,6 @@
             }
             updateCartBadge();
             updateCartDisplay();
-            // Show success animation
             showNotification(`${product.name} added to cart!`);
         }
 
@@ -994,6 +1057,7 @@
         function updateCartDisplay() {
             const cartContainer = document.getElementById('cartItems');
             if (!cartContainer) return;
+
             if (cart.length === 0) {
                 cartContainer.innerHTML = `
                     <div class="text-center py-16">
@@ -1022,8 +1086,8 @@
                                     <select onchange="updateCartQuantity(${item.id}, this.value)"
                                             class="border rounded px-2 py-1">
                                         ${Array.from({ length: 10 }, (_, i) => i + 1).map(num =>
-                    `<option value="${num}" ${num === item.quantity ? 'selected' : ''}>${num}</option>`
-                ).join('')}
+                                            `<option value="${num}" ${num === item.quantity ? 'selected' : ''}>${num}</option>`
+                                        ).join('')}
                                     </select>
                                 </div>
                                 <div class="text-lg font-semibold">${(item.price * item.quantity).toFixed(2)}</div>
@@ -1056,19 +1120,24 @@
         }
 
         function handleSearch() {
-            applyFilters();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm) ||
+                product.category.toLowerCase().includes(searchTerm)
+            );
+            if (currentPage === 'products') {
+                applyFilters();
+            }
         }
 
         function applyFilters() {
             const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(el => el.value);
-            const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(el => el.value);
-            const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(el => parseFloat(el.value));
-            const maxPrice = parseInt(document.getElementById('priceRange').value);
             const sortBy = document.getElementById('sortBy').value;
+            const maxPrice = parseInt(document.getElementById('priceRange').value);
 
             let filtered = [...products];
 
-            // Apply search filter
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             if (searchTerm) {
                 filtered = filtered.filter(product =>
@@ -1078,25 +1147,12 @@
                 );
             }
 
-            // Apply category filter
             if (selectedCategories.length > 0) {
                 filtered = filtered.filter(product => selectedCategories.includes(product.category));
             }
 
-            // Apply brand filter
-            if (selectedBrands.length > 0) {
-                filtered = filtered.filter(product => selectedBrands.includes(product.brand));
-            }
-
-            // Apply rating filter
-            if (selectedRatings.length > 0) {
-                filtered = filtered.filter(product => selectedRatings.some(rating => product.rating >= rating));
-            }
-
-            // Apply price filter
             filtered = filtered.filter(product => product.price <= maxPrice);
 
-            // Apply sorting
             switch (sortBy) {
                 case 'price-low':
                     filtered.sort((a, b) => a.price - b.price);
@@ -1122,6 +1178,7 @@
             const form = e.target;
             const inputs = form.querySelectorAll('input[required]');
             let isValid = true;
+
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     input.classList.add('border-red-500');
@@ -1131,20 +1188,22 @@
                     input.classList.add('border-green-500');
                 }
             });
+
             if (isValid) {
                 showNotification('Form is valid! Ready for payment processing.');
             } else {
                 showNotification('Please fill in all required fields.', 'error');
             }
+
             return isValid;
         }
 
         function processPayment() {
             showLoadingSpinner();
-            // Simulate payment processing
+
             setTimeout(() => {
                 hideLoadingSpinner();
-                cart = []; // Clear cart
+                cart = [];
                 updateCartBadge();
                 showNotification('Payment successful! Order confirmed.', 'success');
                 showPage('home');
@@ -1163,8 +1222,9 @@
 
         function handleLogin(e) {
             e.preventDefault();
+
             showLoadingSpinner();
-            // Simulate login process
+
             setTimeout(() => {
                 hideLoadingSpinner();
                 hideLoginModal();
@@ -1197,17 +1257,21 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+
             const colors = {
                 success: 'bg-green-500 text-white',
                 error: 'bg-red-500 text-white',
                 info: 'bg-blue-500 text-white'
             };
+
             notification.className += ` ${colors[type] || colors.info}`;
             notification.textContent = message;
             document.body.appendChild(notification);
+
             setTimeout(() => {
                 notification.classList.remove('translate-x-full');
             }, 100);
+
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
                 setTimeout(() => {
@@ -1216,7 +1280,6 @@
             }, 3000);
         }
 
-        // Initialize cart display when page loads
         document.addEventListener('DOMContentLoaded', function () {
             updateCartDisplay();
         });
