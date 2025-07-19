@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,27 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         * {
             font-family: 'Inter', sans-serif;
         }
-
         .hero-gradient {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
         .product-card {
             transition: all 0.3s ease;
             transform: translateY(0);
         }
-
         .product-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
-
         .loading-spinner {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
@@ -37,41 +30,23 @@
             height: 40px;
             animation: spin 1s linear infinite;
         }
-
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-
         .fade-in {
             animation: fadeIn 0.5s ease-in;
         }
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
         .cart-badge {
             animation: pulse 0.3s ease-in-out;
         }
-
         .modal-backdrop {
             backdrop-filter: blur(5px);
         }
-
         .dark {
             --tw-bg-opacity: 1;
             background-color: rgb(17 24 39 / var(--tw-bg-opacity));
@@ -80,7 +55,7 @@
         .dropdown {
             position: relative;
         }
-        
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -94,17 +69,17 @@
             border: 1px solid #e5e7eb;
             margin-top: 4px;
         }
-        
+
         .dropdown:hover .dropdown-content {
             display: block;
             animation: fadeIn 0.2s ease-in-out;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .dropdown-item {
             display: block;
             padding: 12px 16px;
@@ -113,32 +88,31 @@
             transition: all 0.2s;
             border-bottom: 1px solid #f3f4f6;
         }
-        
+
         .dropdown-item:last-child {
             border-bottom: none;
         }
-        
+
         .dropdown-item:hover {
             background-color: #f8fafc;
             color: #4f46e5;
             padding-left: 20px;
         }
-
         .nav-link {
             position: relative;
         }
-        
+
         .nav-link::after {
             content: '▼';
             margin-left: 6px;
             font-size: 10px;
             transition: transform 0.2s;
         }
-        
+
         .dropdown:hover .nav-link::after {
             transform: rotate(180deg);
         }
-        
+
         /* Enhanced Filter Styles */
         .filter-sidebar {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -146,43 +120,42 @@
             min-height: calc(100vh - 64px);
             transition: all 0.3s ease;
         }
-        
+
         .filter-section {
             border-bottom: 1px solid #e5e7eb;
             margin-bottom: 1rem;
             padding-bottom: 1rem;
         }
-        
+
         .filter-section:last-child {
             border-bottom: none;
         }
-        
+
         .filter-toggle {
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .filter-toggle:hover {
             color: #4f46e5;
         }
-        
+
         .filter-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-out;
         }
-        
+
         .filter-content.active {
             max-height: 500px;
             padding-top: 1rem;
         }
-        
+
         .price-range-container {
             padding: 1rem 0;
         }
-        
+
         .price-slider {
-           
             width: 100%;
             height: 6px;
             border-radius: 5px;
@@ -191,11 +164,11 @@
             opacity: 0.7;
             transition: opacity 0.2s;
         }
-        
+
         .price-slider:hover {
             opacity: 1;
         }
-        
+
         .price-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -207,7 +180,7 @@
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
+
         .price-slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -217,18 +190,18 @@
             border: 2px solid white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        
+
         .filter-checkbox {
             accent-color: #3b82f6;
             transform: scale(1.1);
         }
-        
+
         .no-products {
             background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
             border: 2px dashed #cbd5e1;
             border-radius: 12px;
         }
-        
+
         .filter-mobile-toggle {
             position: fixed;
             bottom: 20px;
@@ -237,7 +210,7 @@
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
-        
+
         @media (max-width: 768px) {
             .filter-sidebar {
                 position: fixed;
@@ -247,11 +220,11 @@
                 z-index: 30;
                 transition: left 0.3s ease;
             }
-            
+
             .filter-sidebar.active {
                 left: 0;
             }
-            
+
             .filter-overlay {
                 position: fixed;
                 inset: 0;
@@ -259,74 +232,81 @@
                 z-index: 25;
                 backdrop-filter: blur(2px);
             }
+
+            .hidden-on-mobile {
+                display: none;
+            }
         }
     </style>
 </head>
-
 <body class="bg-gray-50 transition-colors duration-300">
     <!-- Navigation -->
     <nav class="bg-white shadow-lg sticky top-0 z-50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Left Side: Brand and Dropdowns -->
-                <div class="flex items-center space-x-8">
+                <div class="flex items-center space-x-4">
                     <!-- Brand -->
                     <div class="text-2xl font-bold text-indigo-600">TechReFi</div>
-    
-                    <!-- Home Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" onclick="showPage('home')"
-                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item">Dashboard</a>
-                            <a href="#" class="dropdown-item">Getting Started</a>
-                            <a href="#" class="dropdown-item">Features Overview</a>
-                            <a href="#" class="dropdown-item">Latest Updates</a>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuButton" class="sm:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden sm:flex items-center space-x-4">
+                        <!-- Home Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" onclick="showPage('home')" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">Dashboard</a>
+                                <a href="#" class="dropdown-item">Getting Started</a>
+                                <a href="#" class="dropdown-item">Features Overview</a>
+                                <a href="#" class="dropdown-item">Latest Updates</a>
+                            </div>
                         </div>
-                    </div>
-    
-                    <!-- Products Dropdown -->
-                    <div class="dropdown">
-                        <a href="#" onclick="showPage('products')"
-                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item" onclick="filterByCategory('smartphones')">Smartphones</a>
-                            <a href="#" class="dropdown-item" onclick="filterByCategory('laptops')">Laptops</a>
-                            <a href="#" class="dropdown-item" onclick="filterByCategory('tablets')">Tablets</a>
-                            <a href="#" class="dropdown-item" onclick="filterByCategory('accessories')">Accessories</a>
-                            <a href="#" class="dropdown-item" onclick="filterByCategory('audio')">Audio</a>
-                            <a href="#" class="dropdown-item">Refurbished Deals</a>
-                            <a href="#" class="dropdown-item">Trade-In Program</a>
+
+                        <!-- Products Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" onclick="showPage('products')" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item" onclick="filterByCategory('smartphones')">Smartphones</a>
+                                <a href="#" class="dropdown-item" onclick="filterByCategory('laptops')">Laptops</a>
+                                <a href="#" class="dropdown-item" onclick="filterByCategory('tablets')">Tablets</a>
+                                <a href="#" class="dropdown-item" onclick="filterByCategory('accessories')">Accessories</a>
+                                <a href="#" class="dropdown-item" onclick="filterByCategory('audio')">Audio</a>
+                                <a href="#" class="dropdown-item">Refurbished Deals</a>
+                                <a href="#" class="dropdown-item">Trade-In Program</a>
+                            </div>
                         </div>
-                    </div>
-    
-                    <!-- About Dropdown -->
-                    <div class="dropdown">
-                        <a href="#"
-                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item">Our Story</a>
-                            <a href="#" class="dropdown-item">Mission & Values</a>
-                            <a href="#" class="dropdown-item">Team</a>
-                            <a href="#" class="dropdown-item">Careers</a>
-                            <a href="#" class="dropdown-item">Press & Media</a>
+
+                        <!-- About Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">Our Story</a>
+                                <a href="#" class="dropdown-item">Mission & Values</a>
+                                <a href="#" class="dropdown-item">Team</a>
+                                <a href="#" class="dropdown-item">Careers</a>
+                                <a href="#" class="dropdown-item">Press & Media</a>
+                            </div>
                         </div>
-                    </div>
-    
-                    <!-- Contact Dropdown -->
-                    <div class="dropdown">
-                        <a href="#"
-                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
-                        <div class="dropdown-content">
-                            <a href="#" class="dropdown-item">Customer Support</a>
-                            <a href="#" class="dropdown-item">Sales Inquiry</a>
-                            <a href="#" class="dropdown-item">Technical Support</a>
-                            <a href="#" class="dropdown-item">Store Locations</a>
-                            <a href="#" class="dropdown-item">Live Chat</a>
+
+                        <!-- Contact Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                            <div class="dropdown-content">
+                                <a href="#" class="dropdown-item">Customer Support</a>
+                                <a href="#" class="dropdown-item">Sales Inquiry</a>
+                                <a href="#" class="dropdown-item">Technical Support</a>
+                                <a href="#" class="dropdown-item">Store Locations</a>
+                                <a href="#" class="dropdown-item">Live Chat</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Right Side: Search, Dark Mode, User, Cart -->
                 <div class="flex items-center space-x-4">
                     <!-- Search Bar -->
@@ -335,17 +315,17 @@
                             class="w-64 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                         <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                     </div>
-    
+
                     <!-- Dark Mode Toggle -->
                     <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <i class="fas fa-moon dark-mode-icon"></i>
                     </button>
-    
+
                     <!-- User Account -->
                     <button onclick="showLoginModal()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <i class="fas fa-user"></i>
                     </button>
-    
+
                     <!-- Cart -->
                     <button onclick="showPage('cart')" class="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
                         <i class="fas fa-shopping-cart"></i>
@@ -356,6 +336,16 @@
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden sm:hidden bg-white shadow-lg">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <a href="#" onclick="showPage('home')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Home</a>
+            <a href="#" onclick="showPage('products')" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Products</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">About</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Contact</a>
+        </div>
+    </div>
 
     <!-- Home Page -->
     <div id="homePage" class="page">
@@ -370,17 +360,15 @@
                 </button>
             </div>
         </section>
-
         <!-- Featured Products -->
         <section class="py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
-                <div id="featuredProducts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div id="featuredProducts" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- Products will be loaded here by JavaScript -->
                 </div>
             </div>
         </section>
-
         <!-- Newsletter -->
         <section class="bg-indigo-600 text-white py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -401,53 +389,52 @@
     <div id="productsPage" class="page hidden">
         <!-- Filter Overlay for Mobile -->
         <div id="filterOverlay" class="filter-overlay hidden"></div>
-        
-        <div class="flex">
+
+        <div class="flex flex-col md:flex-row">
             <!-- Filter Sidebar -->
-            <div id="filterSidebar" class="filter-sidebar w-80 p-6">
+            <div id="filterSidebar" class="filter-sidebar w-full md:w-80 p-6">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-bold text-gray-800">
                         <i class="fas fa-filter mr-2"></i>Filters
                     </h2>
-                    <button onclick="clearAllFilters()" 
+                    <button onclick="clearAllFilters()"
                             class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
                         Clear All
                     </button>
                 </div>
-
                 <!-- Category Filter -->
                 <div class="filter-section">
-                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
-                         onclick="toggleFilterSection('categoryFilter')">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3"
+                        onclick="toggleFilterSection('categoryFilter')">
                         <span><i class="fas fa-tags mr-2"></i>Category</span>
                         <i class="fas fa-chevron-down transition-transform" id="categoryFilterIcon"></i>
                     </div>
                     <div id="categoryFilter" class="filter-content active">
                         <div class="space-y-3">
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="category" value="smartphones" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="category" value="smartphones" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Smartphones</span>
-                                <span class="ml-auto text-xs text-gray-500" id="smartphones-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="category" value="laptops" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="category" value="laptops" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Laptops</span>
-                                <span class="ml-auto text-xs text-gray-500" id="laptops-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="category" value="tablets" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="category" value="tablets" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Tablets</span>
-                                <span class="ml-auto text-xs text-gray-500" id="tablets-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="category" value="accessories" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="category" value="accessories" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Accessories</span>
-                                <span class="ml-auto text-xs text-gray-500" id="accessories-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="category" value="audio" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="category" value="audio" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Audio</span>
-                                <span class="ml-auto text-xs text-gray-500" id="audio-count">0</span>
                             </label>
                         </div>
                     </div>
@@ -455,8 +442,8 @@
 
                 <!-- Price Range Filter -->
                 <div class="filter-section">
-                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
-                         onclick="toggleFilterSection('priceFilter')">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3"
+                        onclick="toggleFilterSection('priceFilter')">
                         <span><i class="fas fa-dollar-sign mr-2"></i>Price Range</span>
                         <i class="fas fa-chevron-down transition-transform" id="priceFilterIcon"></i>
                     </div>
@@ -467,57 +454,46 @@
                                 <span>$<span id="currentPriceValue">2000</span></span>
                                 <span>$2000+</span>
                             </div>
-                            <input type="range" id="priceRange" min="0" max="2000" value="2000" 
-                                   class="price-slider w-full" onchange="applyFilters()">
-                            <div class="flex gap-2 mt-4">
-                                <input type="number" id="minPrice" placeholder="Min" min="0" 
-                                       class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                       onchange="updatePriceRange()">
-                                <input type="number" id="maxPrice" placeholder="Max" min="0" 
-                                       class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                                       onchange="updatePriceRange()">
-                            </div>
+                            <input type="range" id="priceRange" min="0" max="2000" value="2000" class="price-slider w-full"
+                                onchange="document.getElementById('currentPriceValue').textContent = this.value; applyFilters()">
                         </div>
                     </div>
                 </div>
 
                 <!-- Brand Filter -->
                 <div class="filter-section">
-                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
-                         onclick="toggleFilterSection('brandFilter')">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3"
+                        onclick="toggleFilterSection('brandFilter')">
                         <span><i class="fas fa-building mr-2"></i>Brand</span>
                         <i class="fas fa-chevron-down transition-transform" id="brandFilterIcon"></i>
                     </div>
                     <div id="brandFilter" class="filter-content active">
                         <div class="space-y-3">
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="brand" value="Apple" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="brand" value="Apple" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Apple</span>
-                                <span class="ml-auto text-xs text-gray-500" id="Apple-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
-                                <input type="checkbox" name="brand" value="Samsung" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <input type="checkbox" name="brand" value="Samsung" class="filter-checkbox mr-3"
+                                    onchange="applyFilters()">
                                 <span class="text-sm">Samsung</span>
-                                <span class="ml-auto text-xs text-gray-500" id="Samsung-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="brand" value="Dell" class="filter-checkbox mr-3" onchange="applyFilters()">
                                 <span class="text-sm">Dell</span>
-                                <span class="ml-auto text-xs text-gray-500" id="Dell-count">0</span>
                             </label>
                             <label class="flex items-center cursor-pointer">
                                 <input type="checkbox" name="brand" value="Sony" class="filter-checkbox mr-3" onchange="applyFilters()">
                                 <span class="text-sm">Sony</span>
-                                <span class="ml-auto text-xs text-gray-500" id="Sony-count">0</span>
                             </label>
                         </div>
                     </div>
                 </div>
-
                 <!-- Rating Filter -->
                 <div class="filter-section">
-                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
-                         onclick="toggleFilterSection('ratingFilter')">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3"
+                        onclick="toggleFilterSection('ratingFilter')">
                         <span><i class="fas fa-star mr-2"></i>Rating</span>
                         <i class="fas fa-chevron-down transition-transform" id="ratingFilterIcon"></i>
                     </div>
@@ -549,14 +525,13 @@
                         <h1 class="text-3xl font-bold">All Products</h1>
                         <p class="text-gray-600 mt-1">
                             Showing <span id="productCount">0</span> products
-                            <span id="activeFiltersText" class="text-indigo-600"></span>
                         </p>
                     </div>
-                    
+
                     <!-- Sort Options -->
                     <div class="flex items-center space-x-4">
                         <label class="text-sm font-medium text-gray-700">Sort by:</label>
-                        <select id="sortBy" onchange="applyFilters()" 
+                        <select id="sortBy" onchange="applyFilters()"
                                 class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                             <option value="name">Name A-Z</option>
                             <option value="price-low">Price: Low to High</option>
@@ -566,26 +541,17 @@
                         </select>
                     </div>
                 </div>
-
-                <!-- Active Filters Display -->
-                <div id="activeFilters" class="mb-6 hidden">
-                    <div class="flex flex-wrap gap-2">
-                        <!-- Active filter tags will be inserted here -->
-                    </div>
-                </div>
-
                 <!-- Products Grid -->
-                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Products will be loaded here by JavaScript -->
                 </div>
-
                 <!-- No Products Found -->
                 <div id="noProducts" class="hidden">
                     <div class="no-products text-center py-16 mx-auto max-w-md">
                         <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
                         <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
                         <p class="text-gray-500 mb-6">Try adjusting your filters or search terms</p>
-                        <button onclick="clearAllFilters()" 
+                        <button onclick="clearAllFilters()"
                                 class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
                             Clear All Filters
                         </button>
@@ -593,9 +559,8 @@
                 </div>
             </div>
         </div>
-
         <!-- Mobile Filter Toggle -->
-        <button id="mobileFilterToggle" onclick="toggleMobileFilters()" 
+        <button id="mobileFilterToggle" onclick="toggleMobileFilters()"
                 class="filter-mobile-toggle md:hidden w-14 h-14 rounded-full text-white flex items-center justify-center">
             <i class="fas fa-filter"></i>
         </button>
@@ -660,7 +625,6 @@
                         </div>
                     </form>
                 </div>
-
                 <!-- Payment Information -->
                 <div class="bg-white p-6 rounded-lg shadow">
                     <h2 class="text-xl font-bold mb-4">Payment Information</h2>
@@ -687,7 +651,6 @@
                                 class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         </div>
                     </div>
-
                     <div class="mt-8">
                         <div class="flex justify-between items-center text-lg font-semibold mb-4">
                             <span>Order Total: $<span id="checkoutTotal">0.00</span></span>
@@ -781,13 +744,13 @@
     </div>
 
     <script>
-        // Sample product data - In production, this would come from a Python backend
-        // Python backend integration: products = Product.objects.all()
+        // Sample product data
         const products = [
             {
                 id: 1,
                 name: "iPhone 15 Pro",
                 category: "smartphones",
+                brand: "Apple",
                 price: 999,
                 image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400",
                 description: "Latest iPhone with advanced camera system and A17 Pro chip.",
@@ -799,6 +762,7 @@
                 id: 2,
                 name: "MacBook Air M3",
                 category: "laptops",
+                brand: "Apple",
                 price: 1299,
                 image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?w=400",
                 description: "Ultra-thin laptop with M3 chip for exceptional performance.",
@@ -810,6 +774,7 @@
                 id: 3,
                 name: "AirPods Pro",
                 category: "audio",
+                brand: "Apple",
                 price: 249,
                 image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400",
                 description: "Wireless earbuds with active noise cancellation.",
@@ -820,7 +785,8 @@
             {
                 id: 4,
                 name: "iPad Air",
-                category: "accessories",
+                category: "tablets",
+                brand: "Apple",
                 price: 599,
                 image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
                 description: "Powerful tablet for work and creativity.",
@@ -832,6 +798,7 @@
                 id: 5,
                 name: "Samsung Galaxy S24",
                 category: "smartphones",
+                brand: "Samsung",
                 price: 899,
                 image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400",
                 description: "Flagship Android phone with AI features.",
@@ -843,6 +810,7 @@
                 id: 6,
                 name: "Dell XPS 13",
                 category: "laptops",
+                brand: "Dell",
                 price: 1199,
                 image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400",
                 description: "Premium ultrabook with stunning display.",
@@ -868,17 +836,13 @@
             // Search functionality
             document.getElementById('searchInput').addEventListener('input', handleSearch);
 
-            // Filter and sort listeners
-            document.getElementById('categoryFilter').addEventListener('change', applyFilters);
-            document.getElementById('sortBy').addEventListener('change', applyFilters);
-            document.getElementById('priceRange').addEventListener('input', function () {
-                document.getElementById('priceValue').textContent = '$' + this.value;
-                applyFilters();
-            });
+            // Mobile menu toggle
+            document.getElementById('mobileMenuButton').addEventListener('click', toggleMobileMenu);
+        }
 
-            // Form validation
-            document.getElementById('checkoutForm').addEventListener('submit', validateCheckoutForm);
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
         }
 
         function showPage(pageName) {
@@ -886,14 +850,12 @@
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
             });
-
             // Show requested page
             const page = document.getElementById(pageName + 'Page');
             if (page) {
                 page.classList.remove('hidden');
                 page.classList.add('fade-in');
                 currentPage = pageName;
-
                 // Update cart total on checkout page
                 if (pageName === 'checkout') {
                     updateCheckoutTotal();
@@ -904,7 +866,6 @@
         function loadFeaturedProducts() {
             const featuredContainer = document.getElementById('featuredProducts');
             const featured = products.filter(p => p.featured);
-
             featuredContainer.innerHTML = featured.map(product => createProductCard(product)).join('');
         }
 
@@ -916,7 +877,11 @@
             const grid = document.getElementById('productsGrid');
             if (!grid) return;
 
-            grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500">No products found matching your criteria.</div>';
+            } else {
+                grid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+            }
         }
 
         function createProductCard(product) {
@@ -936,12 +901,12 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <span class="text-2xl font-bold text-indigo-600">$${product.price}</span>
-                            <button onclick="addToCart(${product.id})" 
+                            <button onclick="addToCart(${product.id})"
                                     class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors transform hover:scale-105">
                                 Add to Cart
                             </button>
                         </div>
-                        <button onclick="showProductDetail(${product.id})" 
+                        <button onclick="showProductDetail(${product.id})"
                                 class="w-full mt-3 border border-indigo-600 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-50 transition-colors">
                             View Details
                         </button>
@@ -953,7 +918,6 @@
         function showProductDetail(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
-
             const detailContainer = document.getElementById('productDetail');
             detailContainer.innerHTML = `
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -972,7 +936,7 @@
                         </div>
                         <p class="text-4xl font-bold text-indigo-600 mb-6">$${product.price}</p>
                         <p class="text-gray-700 mb-6">${product.description}</p>
-                        
+
                         <div class="flex items-center space-x-4 mb-6">
                             <label for="quantity" class="font-semibold">Quantity:</label>
                             <select id="quantity" class="border rounded-lg px-3 py-2">
@@ -983,12 +947,12 @@
                                 <option>5</option>
                             </select>
                         </div>
-                        
-                        <button onclick="addToCart(${product.id})" 
+
+                        <button onclick="addToCart(${product.id})"
                                 class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors text-lg font-semibold">
                             Add to Cart
                         </button>
-                        
+
                         <div class="mt-8">
                             <h3 class="text-xl font-semibold mb-4">Suggested Items</h3>
                             <div class="grid grid-cols-2 gap-4">
@@ -1012,19 +976,15 @@
         function addToCart(productId, quantity = 1) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
-
             // Check if product already in cart
             const existingItem = cart.find(item => item.id === productId);
-
             if (existingItem) {
                 existingItem.quantity += quantity;
             } else {
                 cart.push({ ...product, quantity });
             }
-
             updateCartBadge();
             updateCartDisplay();
-
             // Show success animation
             showNotification(`${product.name} added to cart!`);
         }
@@ -1052,7 +1012,6 @@
             const badge = document.getElementById('cartBadge');
             const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
             badge.textContent = totalItems;
-
             if (totalItems > 0) {
                 badge.classList.remove('hidden');
             } else {
@@ -1063,7 +1022,6 @@
         function updateCartDisplay() {
             const cartContainer = document.getElementById('cartItems');
             if (!cartContainer) return;
-
             if (cart.length === 0) {
                 cartContainer.innerHTML = `
                     <div class="text-center py-16">
@@ -1089,7 +1047,7 @@
                             <div class="flex items-center space-x-4">
                                 <div class="flex items-center space-x-2">
                                     <label>Qty:</label>
-                                    <select onchange="updateCartQuantity(${item.id}, this.value)" 
+                                    <select onchange="updateCartQuantity(${item.id}, this.value)"
                                             class="border rounded px-2 py-1">
                                         ${Array.from({ length: 10 }, (_, i) => i + 1).map(num =>
                     `<option value="${num}" ${num === item.quantity ? 'selected' : ''}>${num}</option>`
@@ -1097,7 +1055,7 @@
                                     </select>
                                 </div>
                                 <div class="text-lg font-semibold">${(item.price * item.quantity).toFixed(2)}</div>
-                                <button onclick="removeFromCart(${item.id})" 
+                                <button onclick="removeFromCart(${item.id})"
                                         class="text-red-600 hover:text-red-800 transition-colors">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -1106,7 +1064,6 @@
                     </div>
                 `).join('');
             }
-
             updateCartTotal();
         }
 
@@ -1127,26 +1084,19 @@
         }
 
         function handleSearch() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            filteredProducts = products.filter(product =>
-                product.name.toLowerCase().includes(searchTerm) ||
-                product.description.toLowerCase().includes(searchTerm) ||
-                product.category.toLowerCase().includes(searchTerm)
-            );
-
-            if (currentPage === 'products') {
-                applyFilters();
-            }
+            applyFilters();
         }
 
         function applyFilters() {
-            const category = document.getElementById('categoryFilter').value;
-            const sortBy = document.getElementById('sortBy').value;
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(el => el.value);
+            const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(el => el.value);
+            const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(el => parseFloat(el.value));
             const maxPrice = parseInt(document.getElementById('priceRange').value);
+            const sortBy = document.getElementById('sortBy').value;
 
             let filtered = [...products];
 
-            // Apply search filter first
+            // Apply search filter
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             if (searchTerm) {
                 filtered = filtered.filter(product =>
@@ -1157,8 +1107,18 @@
             }
 
             // Apply category filter
-            if (category) {
-                filtered = filtered.filter(product => product.category === category);
+            if (selectedCategories.length > 0) {
+                filtered = filtered.filter(product => selectedCategories.includes(product.category));
+            }
+
+            // Apply brand filter
+            if (selectedBrands.length > 0) {
+                filtered = filtered.filter(product => selectedBrands.includes(product.brand));
+            }
+
+            // Apply rating filter
+            if (selectedRatings.length > 0) {
+                filtered = filtered.filter(product => selectedRatings.some(rating => product.rating >= rating));
             }
 
             // Apply price filter
@@ -1190,7 +1150,6 @@
             const form = e.target;
             const inputs = form.querySelectorAll('input[required]');
             let isValid = true;
-
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     input.classList.add('border-red-500');
@@ -1200,52 +1159,16 @@
                     input.classList.add('border-green-500');
                 }
             });
-
             if (isValid) {
                 showNotification('Form is valid! Ready for payment processing.');
             } else {
                 showNotification('Please fill in all required fields.', 'error');
             }
-
             return isValid;
         }
 
         function processPayment() {
-            // Python backend integration placeholder
-            /* 
-            Python/Django payment processing example:
-            
-            import stripe
-            from django.conf import settings
-            
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            
-            def process_payment(request):
-                try:
-                    intent = stripe.PaymentIntent.create(
-                        amount=int(total_amount * 100),  # Amount in cents
-                        currency='usd',
-                        metadata={
-                            'order_id': order.id,
-                            'customer_id': request.user.id
-                        }
-                    )
-                    
-                    # Save order to database
-                    order = Order.objects.create(
-                        customer=request.user,
-                        total_amount=total_amount,
-                        status='processing'
-                    )
-                    
-                    return JsonResponse({'success': True, 'order_id': order.id})
-                    
-                except Exception as e:
-                    return JsonResponse({'success': False, 'error': str(e)})
-            */
-
             showLoadingSpinner();
-
             // Simulate payment processing
             setTimeout(() => {
                 hideLoadingSpinner();
@@ -1268,28 +1191,7 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            // Python backend integration placeholder
-            /* 
-            Python/Django authentication example:
-            
-            from django.contrib.auth import authenticate, login
-            from django.contrib.auth.models import User
-            
-            def user_login(request):
-                if request.method == 'POST':
-                    email = request.POST['email']
-                    password = request.POST['password']
-                    
-                    user = authenticate(username=email, password=password)
-                    if user is not None:
-                        login(request, user)
-                        return JsonResponse({'success': True, 'user_id': user.id})
-                    else:
-                        return JsonResponse({'success': False, 'error': 'Invalid credentials'})
-            */
-
             showLoadingSpinner();
-
             // Simulate login process
             setTimeout(() => {
                 hideLoadingSpinner();
@@ -1301,14 +1203,9 @@
         function toggleDarkMode() {
             document.body.classList.toggle('dark');
             const icon = document.querySelector('.dark-mode-icon');
-
             if (document.body.classList.contains('dark')) {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
-                // Update colors for dark mode
-                document.querySelectorAll('.bg-white').forEach(el => {
-                    el.classList.add('dark:bg-gray-800', 'dark:text-white');
-                });
             } else {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
@@ -1326,28 +1223,19 @@
         }
 
         function showNotification(message, type = 'info') {
-            // Create notification element
             const notification = document.createElement('div');
             notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
-
-            // Set colors based on type
             const colors = {
                 success: 'bg-green-500 text-white',
                 error: 'bg-red-500 text-white',
                 info: 'bg-blue-500 text-white'
             };
-
             notification.className += ` ${colors[type] || colors.info}`;
             notification.textContent = message;
-
             document.body.appendChild(notification);
-
-            // Show notification
             setTimeout(() => {
                 notification.classList.remove('translate-x-full');
             }, 100);
-
-            // Hide notification after 3 seconds
             setTimeout(() => {
                 notification.classList.add('translate-x-full');
                 setTimeout(() => {
@@ -1360,17 +1248,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             updateCartDisplay();
         });
-
-        // Mobile menu toggle (if needed)
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobileMenu');
-            if (mobileMenu) {
-                mobileMenu.classList.toggle('hidden');
-            }
-        }
     </script>
 </body>
-
 </html>
-
-
