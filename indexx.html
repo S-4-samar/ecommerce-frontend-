@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechReFi Store - Modern Electronics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .product-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cart-badge {
+            animation: pulse 0.3s ease-in-out;
+        }
+
+        .modal-backdrop {
+            backdrop-filter: blur(5px);
+        }
+
+        .dark {
+            --tw-bg-opacity: 1;
+            background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+            color: rgb(243 244 246 / var(--tw-text-opacity));
+        }
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            z-index: 1000;
+            border: 1px solid #e5e7eb;
+            margin-top: 4px;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .dropdown-item {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #374151;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f8fafc;
+            color: #4f46e5;
+            padding-left: 20px;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '▼';
+            margin-left: 6px;
+            font-size: 10px;
+            transition: transform 0.2s;
+        }
+        
+        .dropdown:hover .nav-link::after {
+            transform: rotate(180deg);
+        }
+        
+        /* Enhanced Filter Styles */
+        .filter-sidebar {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-right: 1px solid #e5e7eb;
+            min-height: calc(100vh - 64px);
+            transition: all 0.3s ease;
+        }
+        
+        .filter-section {
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+        }
+        
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-toggle {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-toggle:hover {
+            color: #4f46e5;
+        }
+        
+        .filter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .filter-content.active {
+            max-height: 500px;
+            padding-top: 1rem;
+        }
+        
+        .price-range-container {
+            padding: 1rem 0;
+        }
+        
+        .price-slider {
+
+            width: 100%;
+            height: 6px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #3b82f6, #1d4ed8);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        .price-slider:hover {
+            opacity: 1;
+        }
+        
+        .price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .price-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .filter-checkbox {
+            accent-color: #3b82f6;
+            transform: scale(1.1);
+        }
+        
+        .no-products {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+        }
+        
+        .filter-mobile-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 40;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .filter-sidebar {
+                position: fixed;
+                left: -100%;
+                top: 64px;
+                width: 280px;
+                z-index: 30;
+                transition: left 0.3s ease;
+            }
+            
+            .filter-sidebar.active {
+                left: 0;
+            }
+            
+            .filter-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 25;
+                backdrop-filter: blur(2px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Left Side: Brand and Dropdowns -->
+                <div class="flex items-center space-x-8">
+                    <!-- Brand -->
+                    <div class="text-2xl font-bold text-indigo-600">TechReFi</div>
+    
+                    <!-- Home Dropdown -->
+                    <div class="dropdown">
+                        <a href="#" onclick="showPage('home')"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Dashboard</a>
+                            <a href="#" class="dropdown-item">Getting Started</a>
+                            <a href="#" class="dropdown-item">Features Overview</a>
+                            <a href="#" class="dropdown-item">Latest Updates</a>
+                        </div>
+                    </div>
+    
+                    <!-- Products Dropdown -->
+                    <div class="dropdown">
+                        <a href="#" onclick="showPage('products')"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Products</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('smartphones')">Smartphones</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('laptops')">Laptops</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('tablets')">Tablets</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('accessories')">Accessories</a>
+                            <a href="#" class="dropdown-item" onclick="filterByCategory('audio')">Audio</a>
+                            <a href="#" class="dropdown-item">Refurbished Deals</a>
+                            <a href="#" class="dropdown-item">Trade-In Program</a>
+                        </div>
+                    </div>
+    
+                    <!-- About Dropdown -->
+                    <div class="dropdown">
+                        <a href="#"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Our Story</a>
+                            <a href="#" class="dropdown-item">Mission & Values</a>
+                            <a href="#" class="dropdown-item">Team</a>
+                            <a href="#" class="dropdown-item">Careers</a>
+                            <a href="#" class="dropdown-item">Press & Media</a>
+                        </div>
+                    </div>
+    
+                    <!-- Contact Dropdown -->
+                    <div class="dropdown">
+                        <a href="#"
+                            class="nav-link text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+                        <div class="dropdown-content">
+                            <a href="#" class="dropdown-item">Customer Support</a>
+                            <a href="#" class="dropdown-item">Sales Inquiry</a>
+                            <a href="#" class="dropdown-item">Technical Support</a>
+                            <a href="#" class="dropdown-item">Store Locations</a>
+                            <a href="#" class="dropdown-item">Live Chat</a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Right Side: Search, Dark Mode, User, Cart -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Bar -->
+                    <div class="relative hidden sm:block">
+                        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()"
+                            class="w-64 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+                    </div>
+    
+                    <!-- Dark Mode Toggle -->
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-moon dark-mode-icon"></i>
+                    </button>
+    
+                    <!-- User Account -->
+                    <button onclick="showLoginModal()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-user"></i>
+                    </button>
+    
+                    <!-- Cart -->
+                    <button onclick="showPage('cart')" class="relative p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartBadge"
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center cart-badge">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page">
+        <!-- Hero Section -->
+        <section class="hero-gradient text-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 fade-in">Welcome to TechReFi Store</h1>
+                <p class="text-xl md:text-2xl mb-8 fade-in">Discover the latest in technology and electronics</p>
+                <button onclick="showPage('products')"
+                    class="bg-white text-indigo-600 font-semibold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors transform hover:scale-105 fade-in">
+                    Shop Now
+                </button>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-center mb-12">Featured Products</h2>
+                <div id="featuredProducts" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Products will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter -->
+        <section class="bg-indigo-600 text-white py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+                <p class="text-xl mb-8">Get the latest deals and product updates</p>
+                <div class="max-w-md mx-auto flex">
+                    <input type="email" placeholder="Enter your email"
+                        class="flex-1 px-4 py-3 rounded-l-lg text-gray-900 focus:outline-none">
+                    <button class="bg-indigo-800 px-6 py-3 rounded-r-lg hover:bg-indigo-900 transition-colors">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Products Page -->
+    <div id="productsPage" class="page hidden">
+        <!-- Filter Overlay for Mobile -->
+        <div id="filterOverlay" class="filter-overlay hidden"></div>
+        
+        <div class="flex">
+            <!-- Filter Sidebar -->
+            <div id="filterSidebar" class="filter-sidebar w-80 p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">
+                        <i class="fas fa-filter mr-2"></i>Filters
+                    </h2>
+                    <button onclick="clearAllFilters()" 
+                            class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-section">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
+                         onclick="toggleFilterSection('categoryFilter')">
+                        <span><i class="fas fa-tags mr-2"></i>Category</span>
+                        <i class="fas fa-chevron-down transition-transform" id="categoryFilterIcon"></i>
+                    </div>
+                    <div id="categoryFilter" class="filter-content active">
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="category" value="smartphones" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Smartphones</span>
+                                <span class="ml-auto text-xs text-gray-500" id="smartphones-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="category" value="laptops" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Laptops</span>
+                                <span class="ml-auto text-xs text-gray-500" id="laptops-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="category" value="tablets" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Tablets</span>
+                                <span class="ml-auto text-xs text-gray-500" id="tablets-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="category" value="accessories" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Accessories</span>
+                                <span class="ml-auto text-xs text-gray-500" id="accessories-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="category" value="audio" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Audio</span>
+                                <span class="ml-auto text-xs text-gray-500" id="audio-count">0</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="filter-section">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
+                         onclick="toggleFilterSection('priceFilter')">
+                        <span><i class="fas fa-dollar-sign mr-2"></i>Price Range</span>
+                        <i class="fas fa-chevron-down transition-transform" id="priceFilterIcon"></i>
+                    </div>
+                    <div id="priceFilter" class="filter-content active">
+                        <div class="price-range-container">
+                            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                                <span>$0</span>
+                                <span>$<span id="currentPriceValue">2000</span></span>
+                                <span>$2000+</span>
+                            </div>
+                            <input type="range" id="priceRange" min="0" max="2000" value="2000" 
+                                   class="price-slider w-full" onchange="applyFilters()">
+                            <div class="flex gap-2 mt-4">
+                                <input type="number" id="minPrice" placeholder="Min" min="0" 
+                                       class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                       onchange="updatePriceRange()">
+                                <input type="number" id="maxPrice" placeholder="Max" min="0" 
+                                       class="w-1/2 px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                       onchange="updatePriceRange()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand Filter -->
+                <div class="filter-section">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
+                         onclick="toggleFilterSection('brandFilter')">
+                        <span><i class="fas fa-building mr-2"></i>Brand</span>
+                        <i class="fas fa-chevron-down transition-transform" id="brandFilterIcon"></i>
+                    </div>
+                    <div id="brandFilter" class="filter-content active">
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="brand" value="Apple" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Apple</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Apple-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="brand" value="Samsung" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Samsung</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Samsung-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="brand" value="Dell" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Dell</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Dell-count">0</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="brand" value="Sony" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <span class="text-sm">Sony</span>
+                                <span class="ml-auto text-xs text-gray-500" id="Sony-count">0</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="filter-section">
+                    <div class="filter-toggle flex justify-between items-center font-semibold text-gray-700 mb-3" 
+                         onclick="toggleFilterSection('ratingFilter')">
+                        <span><i class="fas fa-star mr-2"></i>Rating</span>
+                        <i class="fas fa-chevron-down transition-transform" id="ratingFilterIcon"></i>
+                    </div>
+                    <div id="ratingFilter" class="filter-content active">
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="rating" value="4" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-400">★★★★☆</span>
+                                    <span class="text-sm ml-2">4+ Stars</span>
+                                </div>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" name="rating" value="3" class="filter-checkbox mr-3" onchange="applyFilters()">
+                                <div class="flex items-center">
+                                    <span class="text-yellow-400">★★★☆☆</span>
+                                    <span class="text-sm ml-2">3+ Stars</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold">All Products</h1>
+                        <p class="text-gray-600 mt-1">
+                            Showing <span id="productCount">0</span> products
+                            <span id="activeFiltersText" class="text-indigo-600"></span>
+                        </p>
+                    </div>
+                    
+                    <!-- Sort Options -->
+                    <div class="flex items-center space-x-4">
+                        <label class="text-sm font-medium text-gray-700">Sort by:</label>
+                        <select id="sortBy" onchange="applyFilters()" 
+                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="name">Name A-Z</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Active Filters Display -->
+                <div id="activeFilters" class="mb-6 hidden">
+                    <div class="flex flex-wrap gap-2">
+                        <!-- Active filter tags will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Products will be loaded here by JavaScript -->
+                </div>
+
+                <!-- No Products Found -->
+                <div id="noProducts" class="hidden">
+                    <div class="no-products text-center py-16 mx-auto max-w-md">
+                        <i class="fas fa-search text-6xl text-gray-400 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">No products found</h3>
+                        <p class="text-gray-500 mb-6">Try adjusting your filters or search terms</p>
+                        <button onclick="clearAllFilters()" 
+                                class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Clear All Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Filter Toggle -->
+        <button id="mobileFilterToggle" onclick="toggleMobileFilters()" 
+                class="filter-mobile-toggle md:hidden w-14 h-14 rounded-full text-white flex items-center justify-center">
+            <i class="fas fa-filter"></i>
+        </button>
+    </div>
+
+    <!-- Product Detail Page -->
+    <div id="productDetailPage" class="page hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="productDetail">
+                <!-- Product detail will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cartPage" class="page hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-3xl font-bold mb-8">Shopping Cart</h1>
+            <div id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="mt-8 bg-white p-6 rounded-lg shadow">
+                <div class="flex justify-between items-center text-xl font-bold">
+                    <span>Total: $<span id="cartTotal">0.00</span></span>
+                    <button onclick="showPage('checkout')"
+                        class="bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                        Proceed to Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Page -->
+    <div id="checkoutPage" class="page hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-3xl font-bold mb-8">Checkout</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Shipping Information -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-bold mb-4">Shipping Information</h2>
+                    <form id="checkoutForm">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="First Name" required
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" placeholder="Last Name" required
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <input type="email" placeholder="Email Address" required
+                            class="w-full mt-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" placeholder="Address" required
+                            class="w-full mt-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                            <input type="text" placeholder="City" required
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" placeholder="State" required
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" placeholder="ZIP Code" required
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </form>
+                </div>
+                <!-- Payment Information -->
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-bold mb-4">Payment Information</h2>
+                    <!-- Python backend integration placeholder -->
+                    <!-- Python/Django: Handle secure payment processing with Stripe/PayPal -->
+                    <div class="space-y-4">
+                        <div class="flex space-x-4">
+                            <button class="flex-1 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fab fa-cc-visa text-2xl text-blue-600"></i>
+                            </button>
+                            <button class="flex-1 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fab fa-cc-mastercard text-2xl text-red-600"></i>
+                            </button>
+                            <button class="flex-1 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                <i class="fab fa-paypal text-2xl text-blue-800"></i>
+                            </button>
+                        </div>
+                        <input type="text" placeholder="Card Number"
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" placeholder="MM/YY"
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="text" placeholder="CVV"
+                                class="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                
+                    <div class="mt-8">
+                        <div class="flex justify-between items-center text-lg font-semibold mb-4">
+                            <span>Order Total: $<span id="checkoutTotal">0.00</span></span>
+                        </div>
+                        <button onclick="processPayment()"
+                            class="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors">
+                            Complete Order
+                        </button>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+
+                <!-- Order Summary
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+                    <div id="checkoutItems" class="space-y-4 mb-6"> -->
+                        <!-- Checkout items will be loaded here -->
+                    <!-- </div>
+                    <div class="border-t pt-4">
+                        <div class="flex justify-between mb-2">
+                            <span>Subtotal:</span>
+                            <span>$<span id="subtotal">0.00</span></span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Shipping:</span>
+                            <span>$<span id="shipping">9.99</span></span>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span>Tax:</span>
+                            <span>$<span id="tax">0.00</span></span>
+                        </div>
+                        <div class="flex justify-between font-bold text-lg border-t pt-2">
+                            <span>Total:</span>
+                            <span>$<span id="finalTotal">0.00</span></span>
+                        </div>
+                    </div>
+                    <button onclick="processPayment()"
+                        class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                        Complete Order
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 modal-backdrop hidden z-50 flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold mb-6 text-center">Sign In</h2>
+            <form id="loginForm">
+                <input type="email" placeholder="Email" required
+                    class="w-full mb-4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="password" placeholder="Password" required
+                    class="w-full mb-6 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                    Sign In
+                </button>
+            </form>
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">Don't have an account? 
+                    <a href="#" class="text-indigo-600 hover:text-indigo-700">Sign up</a>
+                </p>
+            </div>
+            <button onclick="hideLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50 hidden">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "iPhone 14 Pro",
+                brand: "Apple",
+                price: 999,
+                category: "smartphones",
+                image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400",
+                rating: 4.8,
+                description: "The most advanced iPhone yet with A16 Bionic chip and Pro camera system.",
+                features: ["6.1-inch Super Retina XDR display", "A16 Bionic chip", "Pro camera system", "48MP Main camera"],
+                stock: 25
+            },
+            {
+                id: 2,
+                name: "MacBook Pro 14\"",
+                brand: "Apple",
+                price: 1999,
+                category: "laptops",
+                image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
+                rating: 4.9,
+                description: "Supercharged by M2 Pro chip for incredible performance.",
+                features: ["14-inch Liquid Retina XDR display", "M2 Pro chip", "Up to 18 hours battery", "Three Thunderbolt 4 ports"],
+                stock: 15
+            },
+            {
+                id: 3,
+                name: "Samsung Galaxy S23",
+                brand: "Samsung",
+                price: 799,
+                category: "smartphones",
+                image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400",
+                rating: 4.6,
+                description: "Premium Android smartphone with incredible camera capabilities.",
+                features: ["6.1-inch Dynamic AMOLED 2X", "Snapdragon 8 Gen 2", "50MP triple camera", "8K video recording"],
+                stock: 30
+            },
+            {
+                id: 4,
+                name: "Dell XPS 13",
+                brand: "Dell",
+                price: 1299,
+                category: "laptops",
+                image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=400",
+                rating: 4.5,
+                description: "Ultra-portable laptop with stunning InfinityEdge display.",
+                features: ["13.4-inch InfinityEdge display", "Intel Core i7", "16GB RAM", "512GB SSD"],
+                stock: 20
+            },
+            {
+                id: 5,
+                name: "iPad Air",
+                brand: "Apple",
+                price: 599,
+                category: "tablets",
+                image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+                rating: 4.7,
+                description: "Powerful, colorful, and versatile iPad with M1 chip.",
+                features: ["10.9-inch Liquid Retina display", "M1 chip", "12MP Ultra Wide front camera", "USB-C connector"],
+                stock: 35
+            },
+            {
+                id: 6,
+                name: "Sony WH-1000XM5",
+                brand: "Sony",
+                price: 399,
+                category: "audio",
+                image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
+                rating: 4.8,
+                description: "Industry-leading noise canceling headphones.",
+                features: ["30-hour battery life", "Premium comfort", "Multipoint connection", "Quick Attention Mode"],
+                stock: 40
+            },
+            {
+                id: 7,
+                name: "AirPods Pro",
+                brand: "Apple",
+                price: 249,
+                category: "accessories",
+                image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400",
+                rating: 4.6,
+                description: "Active Noise Cancellation wireless earbuds.",
+                features: ["Active Noise Cancellation", "Transparency mode", "Spatial audio", "MagSafe charging case"],
+                stock: 50
+            },
+            {
+                id: 8,
+                name: "Samsung Galaxy Tab S8",
+                brand: "Samsung",
+                price: 699,
+                category: "tablets",
+                image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+                rating: 4.4,
+                description: "Ultra-slim premium Android tablet with S Pen included.",
+                features: ["11-inch LTPS TFT display", "Snapdragon 8 Gen 1", "S Pen included", "8GB RAM"],
+                stock: 18
+            }
+        ];
+
+        // State management
+        let cart = [];
+        let currentPage = 'home';
+        let filteredProducts = [...products];
+        let isDarkMode = false;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFeaturedProducts();
+            loadAllProducts();
+            updateCartBadge();
+            updateProductCounts();
+            showPage('home');
+        });
+
+        // Page navigation
+        function showPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+
+            // Show selected page
+            document.getElementById(page + 'Page').classList.remove('hidden');
+            currentPage = page;
+
+            // Load page-specific content
+            if (page === 'products') {
+                loadAllProducts();
+            } else if (page === 'cart') {
+                loadCartItems();
+            } else if (page === 'checkout') {
+                loadCheckoutItems();
+            }
+        }
+
+        // Product loading functions
+        function loadFeaturedProducts() {
+            const featuredProducts = products.slice(0, 4);
+            const container = document.getElementById('featuredProducts');
+
+            container.innerHTML = featuredProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer" 
+                     onclick="showProductDetail(${product.id})">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-2">${product.name}</h3>
+                        <div class="flex items-center mb-2">
+                            ${generateStars(product.rating)}
+                            <span class="text-sm text-gray-600 ml-2">(${product.rating})</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-indigo-600">$${product.price}</span>
+                            <button onclick="event.stopPropagation(); addToCart(${product.id})" 
+                                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAllProducts() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+            const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(cb => cb.value);
+            const selectedRatings = Array.from(document.querySelectorAll('input[name="rating"]:checked')).map(cb => parseFloat(cb.value));
+            const maxPrice = parseInt(document.getElementById('priceRange')?.value || 2000);
+            const sortBy = document.getElementById('sortBy')?.value || 'name';
+
+            // Filter products
+            filteredProducts = products.filter(product => {
+                const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
+                    product.brand.toLowerCase().includes(searchTerm);
+                const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category);
+                const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
+                const matchesPrice = product.price <= maxPrice;
+                const matchesRating = selectedRatings.length === 0 || selectedRatings.some(rating => product.rating >= rating);
+
+                return matchesSearch && matchesCategory && matchesBrand && matchesPrice && matchesRating;
+            });
+
+            // Sort products
+            sortProducts(sortBy);
+
+            // Update UI
+            displayProducts();
+            updateProductCount();
+            updateActiveFilters();
+            updateProductCounts();
+        }
+
+        function sortProducts(sortBy) {
+            switch (sortBy) {
+                case 'price-low':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'rating':
+                    filteredProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    filteredProducts.sort((a, b) => b.id - a.id);
+                    break;
+                default:
+                    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+            }
+        }
+
+        function displayProducts() {
+            const container = document.getElementById('productsGrid');
+            const noProductsDiv = document.getElementById('noProducts');
+
+            if (filteredProducts.length === 0) {
+                container.classList.add('hidden');
+                noProductsDiv.classList.remove('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            noProductsDiv.classList.add('hidden');
+
+            container.innerHTML = filteredProducts.map(product => `
+                <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden cursor-pointer fade-in" 
+                     onclick="showProductDetail(${product.id})">
+                    <div class="relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                        <div class="absolute top-2 right-2 bg-white bg-opacity-90 rounded-full px-2 py-1 text-xs font-semibold">
+                            ${product.stock} left
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-semibold text-lg">${product.name}</h3>
+                            <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${product.brand}</span>
+                        </div>
+                        <div class="flex items-center mb-3">
+                            ${generateStars(product.rating)}
+                            <span class="text-sm text-gray-600 ml-2">(${product.rating})</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 line-clamp-2">${product.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xl font-bold text-indigo-600">$${product.price}</span>
+                            <button onclick="event.stopPropagation(); addToCart(${product.id})" 
+                                    class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition-colors transform hover:scale-105">
+                                <i class="fas fa-cart-plus mr-1"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateProductCount() {
+            const countElement = document.getElementById('productCount');
+            if (countElement) {
+                countElement.textContent = filteredProducts.length;
+            }
+        }
+
+        function updateProductCounts() {
+            // Update category counts
+            const categories = ['smartphones', 'laptops', 'tablets', 'accessories', 'audio'];
+            categories.forEach(category => {
+                const count = products.filter(p => p.category === category).length;
+                const element = document.getElementById(`${category}-count`);
+                if (element) element.textContent = count;
+            });
+
+            // Update brand counts
+            const brands = ['Apple', 'Samsung', 'Dell', 'Sony'];
+            brands.forEach(brand => {
+                const count = products.filter(p => p.brand === brand).length;
+                const element = document.getElementById(`${brand}-count`);
+                if (element) element.textContent = count;
+            });
+        }
+
+        function updateActiveFilters() {
+            const activeFiltersDiv = document.getElementById('activeFilters');
+            const activeFiltersText = document.getElementById('activeFiltersText');
+
+            const filters = [];
+
+            // Get active category filters
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+            selectedCategories.forEach(cat => filters.push({ type: 'category', value: cat, label: cat }));
+
+            // Get active brand filters
+            const selectedBrands = Array.from(document.querySelectorAll('input[name="brand"]:checked')).map(cb => cb.value);
+            selectedBrands.forEach(brand => filters.push({ type: 'brand', value: brand, label: brand }));
+
+            // Get price filter
+            const maxPrice = parseInt(document.getElementById('priceRange')?.value || 2000);
+            if (maxPrice < 2000) {
+                filters.push({ type: 'price', value: maxPrice, label: `Under $${maxPrice}` });
+            }
+
+            if (filters.length > 0) {
+                activeFiltersDiv.classList.remove('hidden');
+                activeFiltersText.textContent = ` with ${filters.length} active filter${filters.length > 1 ? 's' : ''}`;
+
+                activeFiltersDiv.innerHTML = `
+                    <div class="flex flex-wrap gap-2">
+                        ${filters.map(filter => `
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-indigo-100 text-indigo-800">
+                                ${filter.label}
+                                <button onclick="removeFilter('${filter.type}', '${filter.value}')" class="ml-2 text-indigo-600 hover:text-indigo-800">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </span>
+                        `).join('')}
+                        <button onclick="clearAllFilters()" class="text-sm text-gray-600 hover:text-gray-800 underline">
+                            Clear all
+                        </button>
+                    </div>
+                `;
+            } else {
+                activeFiltersDiv.classList.add('hidden');
+                activeFiltersText.textContent = '';
+            }
+        }
+
+        function removeFilter(type, value) {
+            if (type === 'category') {
+                document.querySelector(`input[name="category"][value="${value}"]`).checked = false;
+            } else if (type === 'brand') {
+                document.querySelector(`input[name="brand"][value="${value}"]`).checked = false;
+            } else if (type === 'price') {
+                document.getElementById('priceRange').value = 2000;
+                document.getElementById('currentPriceValue').textContent = '2000';
+            }
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            // Clear category filters
+            document.querySelectorAll('input[name="category"]').forEach(cb => cb.checked = false);
+
+            // Clear brand filters
+            document.querySelectorAll('input[name="brand"]').forEach(cb => cb.checked = false);
+
+            // Clear rating filters
+            document.querySelectorAll('input[name="rating"]').forEach(cb => cb.checked = false);
+
+            // Reset price range
+            document.getElementById('priceRange').value = 2000;
+            document.getElementById('currentPriceValue').textContent = '2000';
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+
+            // Reset sort
+            document.getElementById('sortBy').value = 'name';
+
+            // Reset search
+            if (document.getElementById('searchInput')) {
+                document.getElementById('searchInput').value = '';
+            }
+
+            applyFilters();
+        }
+
+        function searchProducts() {
+            applyFilters();
+        }
+
+        function filterByCategory(category) {
+            showPage('products');
+            setTimeout(() => {
+                document.querySelector(`input[name="category"][value="${category}"]`).checked = true;
+                applyFilters();
+            }, 100);
+        }
+
+        // Product detail functions
+        function showProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const container = document.getElementById('productDetail');
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div class="space-y-4">
+                        <img src="${product.image}" alt="${product.name}" class="w-full rounded-lg shadow-lg">
+                        <div class="grid grid-cols-4 gap-2">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-20 object-cover rounded-lg border-2 border-indigo-600">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-20 object-cover rounded-lg opacity-50">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-20 object-cover rounded-lg opacity-50">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-20 object-cover rounded-lg opacity-50">
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">${product.name}</h1>
+                            <p class="text-gray-600">${product.brand}</p>
+                            <div class="flex items-center mt-2">
+                                ${generateStars(product.rating)}
+                                <span class="text-sm text-gray-600 ml-2">(${product.rating} stars)</span>
+                            </div>
+                        </div>
+                        
+                        <div class="text-3xl font-bold text-indigo-600">$${product.price}</div>
+                        
+                        <p class="text-gray-700 leading-relaxed">${product.description}</p>
+                        
+                        <div>
+                            <h3 class="font-semibold mb-3">Key Features:</h3>
+                            <ul class="space-y-2">
+                                ${product.features.map(feature => `<li class="flex items-center text-sm"><i class="fas fa-check text-green-500 mr-2"></i>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm font-medium">Quantity:</span>
+                            <select id="quantity" class="border rounded px-3 py-1">
+                                ${Array.from({ length: Math.min(10, product.stock) }, (_, i) => `<option value="${i + 1}">${i + 1}</option>`).join('')}
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button onclick="addToCart(${product.id}, parseInt(document.getElementById('quantity').value))" 
+                                    class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
+                                <i class="fas fa-cart-plus mr-2"></i>Add to Cart
+                            </button>
+                            <button class="w-full border border-indigo-600 text-indigo-600 py-3 rounded-lg hover:bg-indigo-50 transition-colors font-semibold">
+                                <i class="fas fa-heart mr-2"></i>Add to Wishlist
+                            </button>
+                        </div>
+                        
+                        <div class="border-t pt-6 space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Stock:</span>
+                                <span class="font-medium">${product.stock} units available</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">SKU:</span>
+                                <span class="font-medium">TR${product.id.toString().padStart(4, '0')}</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Category:</span>
+                                <span class="font-medium capitalize">${product.category}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            showPage('productDetail');
+        }
+
+        // Cart functions
+        function addToCart(productId, quantity = 1) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ ...product, quantity });
+            }
+
+            updateCartBadge();
+            showNotification(`${product.name} added to cart!`);
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartBadge();
+            if (currentPage === 'cart') {
+                loadCartItems();
+            }
+        }
+
+        function updateQuantity(productId, quantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = Math.max(1, quantity);
+                updateCartBadge();
+                if (currentPage === 'cart') {
+                    loadCartItems();
+                }
+            }
+        }
+
+        function updateCartBadge() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            badge.textContent = totalItems;
+            badge.classList.toggle('hidden', totalItems === 0);
+        }
+
+        function loadCartItems() {
+            const container = document.getElementById('cartItems');
+            const totalElement = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16">
+                        <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-500 mb-6">Add some products to get started</p>
+                        <button onclick="showPage('products')" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+                totalElement.textContent = '0.00';
+                return;
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            container.innerHTML = cart.map(item => `
+                <div class="bg-white p-6 rounded-lg shadow mb-4">
+                    <div class="flex items-center space-x-6">
+                        <img src="${item.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-lg">${item.name}</h3>
+                            <p class="text-gray-600">${item.brand}</p>
+                            <p class="text-indigo-600 font-bold">$${item.price}</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})" 
+                                    class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <span class="w-8 text-center font-semibold">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" 
+                                    class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-lg">$${(item.price * item.quantity).toFixed(2)}</p>
+                            <button onclick="removeFromCart(${item.id})" 
+                                    class="text-red-500 hover:text-red-700 mt-2">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            totalElement.textContent = total.toFixed(2);
+        }
+
+        function loadCheckoutItems() {
+                const container = document.getElementById('checkoutItems');
+                const subtotalElement = document.getElementById('subtotal');
+                const taxElement = document.getElementById('tax');
+                const finalTotalElement = document.getElementById('finalTotal');
+                const shippingCost = 9.99;
+
+                if (cart.length === 0) {
+                    container.innerHTML = `
+                    <div class="text-center py-8">
+                        <p class="text-gray-500">No items in cart</p>
+                        <button onclick="showPage('products')" class="mt-4 text-indigo-600 hover:text-indigo-700">
+                            Continue Shopping
+                        </button>
+                    </div>
+                `;
+                    subtotalElement.textContent = '0.00';
+                    taxElement.textContent = '0.00';
+                    finalTotalElement.textContent = '0.00';
+                    return;
+                }
+
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const tax = subtotal * 0.08; // 8% tax
+                const finalTotal = subtotal + tax + shippingCost;
+
+                container.innerHTML = cart.map(item => `
+                <div class="flex items-center space-x-4 py-3 border-b">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded">
+                    <div class="flex-1">
+                        <h4 class="font-medium">${item.name}</h4>
+                        <p class="text-sm text-gray-600">Qty: ${item.quantity}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-semibold">$${(item.price * item.quantity).toFixed(2)}</p>
+                    </div>
+                </div>
+            `).join('');
+
+                subtotalElement.textContent = subtotal.toFixed(2);
+                taxElement.textContent = tax.toFixed(2);
+                finalTotalElement.textContent = finalTotal.toFixed(2);
+            }
+
+            // Utility functions
+            function generateStars(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 !== 0;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+                let stars = '';
+                for (let i = 0; i < fullStars; i++) {
+                    stars += '<i class="fas fa-star text-yellow-400"></i>';
+                }
+                if (hasHalfStar) {
+                    stars += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+                }
+                for (let i = 0; i < emptyStars; i++) {
+                    stars += '<i class="far fa-star text-yellow-400"></i>';
+                }
+                return stars;
+            }
+
+            function showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full ${type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                    }`;
+                notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+                document.body.appendChild(notification);
+
+                // Animate in
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 3000);
+            }
+
+            function showLoadingSpinner() {
+                document.getElementById('loadingSpinner').classList.remove('hidden');
+            }
+
+            function hideLoadingSpinner() {
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
+
+            // Modal functions
+            function showLoginModal() {
+                document.getElementById('loginModal').classList.remove('hidden');
+            }
+
+            function hideLoginModal() {
+                document.getElementById('loginModal').classList.add('hidden');
+            }
+
+            // Form handlers
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                showLoadingSpinner();
+
+                setTimeout(() => {
+                    hideLoadingSpinner();
+                    hideLoginModal();
+                    showNotification('Welcome back! You have been signed in.');
+                }, 2000);
+            });
+
+            // Price range handler
+            document.getElementById('priceRange').addEventListener('input', function (e) {
+                document.getElementById('currentPriceValue').textContent = e.target.value;
+                applyFilters();
+            });
+
+            // Payment processing
+            function processPayment() {
+                if (cart.length === 0) {
+                    showNotification('Your cart is empty!', 'error');
+                    return;
+                }
+
+                // Basic form validation
+                const form = document.querySelector('#checkoutPage form');
+                const inputs = form.querySelectorAll('input[required]');
+                let isValid = true;
+
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        input.classList.add('border-red-500');
+                        isValid = false;
+                    } else {
+                        input.classList.remove('border-red-500');
+                    }
+                });
+
+                if (!isValid) {
+                    showNotification('Please fill in all required fields.', 'error');
+                    return;
+                }
+
+                showLoadingSpinner();
+
+                setTimeout(() => {
+                    hideLoadingSpinner();
+
+                    // Clear cart and show success
+                    cart = [];
+                    updateCartBadge();
+
+                    // Show success message and redirect to home
+                    showNotification('Order placed successfully! Thank you for your purchase.');
+
+                    setTimeout(() => {
+                        showPage('home');
+                    }, 2000);
+                }, 3000);
+            }
+
+            // Dark mode toggle (if implemented in UI)
+            function toggleDarkMode() {
+                isDarkMode = !isDarkMode;
+                document.body.classList.toggle('dark-mode', isDarkMode);
+
+                // Save preference
+                try {
+                    const preferences = { darkMode: isDarkMode };
+                    // Note: Using variable storage since localStorage is not available
+                    window.userPreferences = preferences;
+                } catch (error) {
+                    console.log('Could not save preferences');
+                }
+            }
+
+            // Initialize preferences on load
+            function loadUserPreferences() {
+                try {
+                    const preferences = window.userPreferences || {};
+                    if (preferences.darkMode) {
+                        toggleDarkMode();
+                    }
+                } catch (error) {
+                    console.log('Could not load preferences');
+                }
+            }
+
+            // Wishlist functions (placeholder for future implementation)
+            let wishlist = [];
+
+            function addToWishlist(productId) {
+                const product = products.find(p => p.id === productId);
+                if (!product) return;
+
+                if (!wishlist.find(item => item.id === productId)) {
+                    wishlist.push(product);
+                    showNotification(`${product.name} added to wishlist!`);
+                } else {
+                    showNotification('Item already in wishlist!', 'error');
+                }
+            }
+
+            function removeFromWishlist(productId) {
+                wishlist = wishlist.filter(item => item.id !== productId);
+                showNotification('Item removed from wishlist');
+            }
+
+            // Search suggestions (basic implementation)
+            function setupSearchSuggestions() {
+                const searchInput = document.getElementById('searchInput');
+                if (!searchInput) return;
+
+                searchInput.addEventListener('input', function (e) {
+                    const query = e.target.value.toLowerCase();
+                    if (query.length < 2) return;
+
+                    const suggestions = products
+                        .filter(product =>
+                            product.name.toLowerCase().includes(query) ||
+                            product.brand.toLowerCase().includes(query)
+                        )
+                        .slice(0, 5);
+
+                    // This would show suggestions dropdown in a real implementation
+                    console.log('Search suggestions:', suggestions.map(p => p.name));
+                });
+            }
+
+            // Initialize search suggestions when products page loads
+            function initializeProductsPage() {
+                setupSearchSuggestions();
+                loadAllProducts();
+            }
+
+            // Event listeners for escape key to close modals
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    hideLoginModal();
+                }
+            });
+
+            // Click outside modal to close
+            document.getElementById('loginModal').addEventListener('click', function (e) {
+                if (e.target === this) {
+                    hideLoginModal();
+                }
+            });
+
+            // Initialize everything when DOM is ready
+            document.addEventListener('DOMContentLoaded', function () {
+                loadFeaturedProducts();
+                loadAllProducts();
+                updateCartBadge();
+                updateProductCounts();
+                showPage('home');
+                loadUserPreferences();
+
+                // Add smooth scrolling for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
+                });
+            });
+
+            // Export functions for global access (if needed)
+            window.ecommerceApp = {
+                showPage,
+                addToCart,
+                removeFromCart,
+                updateQuantity,
+                showProductDetail,
+                filterByCategory,
+                searchProducts,
+                clearAllFilters,
+                processPayment,
+                showLoginModal,
+                hideLoginModal,
+                toggleDarkMode
+            };
+        </script>
+    </body>
+    
+    </html>
